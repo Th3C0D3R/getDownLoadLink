@@ -1,7 +1,6 @@
 # example netlify.toml
 [build]
   command = "npm run build"
-  functions = "api"
   publish = ""
 
   ## Uncomment to use this redirect for Single Page Applications like create-react-app.
@@ -13,9 +12,10 @@
 
   ## (optional) Settings for Netlify Dev
   ## https://github.com/netlify/cli/blob/main/docs/netlify-dev.md#project-detection
-  #[dev]
+[dev]
   #  command = "node start" # Command to start your dev server
   #  port = 3000 # Port that the dev server will be listening on
   #  publish = "dist" # Folder with the static content for _redirect file
+  functions = "api"
 
   ## more info on configuring this file: https://ntl.fyi/file-based-build-config
