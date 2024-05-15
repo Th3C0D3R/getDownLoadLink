@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "uname -a",
+    "prebuild": "npx @puppeteer/browsers install chromium@123 --path /tmp/chromium",
     "build": ""
   },
   "author": "",

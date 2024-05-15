@@ -1,7 +1,6 @@
 # example netlify.toml
 [build]
   command = "npm install . && npm run build"
-  prebuild = "npx @puppeteer/browsers install chromium@123 --path /tmp/chromium"
   publish = ""
 [dev]
   functions = "api"
