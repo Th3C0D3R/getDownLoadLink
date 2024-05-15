@@ -39,11 +39,13 @@ exports.handler = async (event, context) => {
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
   timeStart("debug");
+  log("get path");
 
   const path = process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar");
   chromium.setGraphicsMode = false;
 
   timeLog("debug");
+  log("get browser");
 
   const browser = await puppeteer.launch({
     executablePath: path,
@@ -118,7 +120,7 @@ exports.handler = async (event, context) => {
 
     browser.close();
     timeEnd("debug");
-    
+
     return {
       statusCode: 200,
       body: JSON.stringify({ link: dlUrl, time: (Date.now() - start) / 1000 })
