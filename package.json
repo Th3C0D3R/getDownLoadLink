@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "ldd chrome | grep not",
+    "prebuild": "uname -a",
     "build": ""
   },
   "author": "",
