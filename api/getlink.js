@@ -1,5 +1,6 @@
 const chromium = require("@sparticuz/chromium-min");
 const puppeteer = require('puppeteer-core');
+const fs = require('fs');
 
 exports.handler = async (event, context) => {
 
@@ -10,11 +11,14 @@ exports.handler = async (event, context) => {
 
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
-  console.log(process.env.CHROME_PATH);
+  console.log(fs.existsSync("/tmp/chromium"));
+  fs.readdirSync(testFolder).forEach(file => {
+    console.log(file);
+  });
 
   const path = process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar");
   chromium.setGraphicsMode = false;
-  console.log(path);
+  //console.log(path);
 
   const browser = await puppeteer.launch({
     executablePath: path,
