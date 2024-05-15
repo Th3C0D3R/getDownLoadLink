@@ -1,5 +1,5 @@
-const puppeteer = require("puppeteer");
-const chromium = require("@sparticuz/chromium");
+const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer-core');
 
 exports.handler = async (event, context) => {
 
@@ -10,11 +10,11 @@ exports.handler = async (event, context) => {
 
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
-  const path = await chromium.executablePath();
+  const path = await chromium.executablePath;
   console.log("get browser");
   console.log(path);
   const browser = await puppeteer.launch({
-    executablePath: path,
+    executablePath: process.env.CHROME_EXECUTABLE_PATH || path,
     headless: true,
     args: ['--no-sandbox'],
   });
