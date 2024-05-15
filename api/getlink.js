@@ -1,4 +1,4 @@
-const chromium = require("@sparticuz/chromium");
+const chromium = require("@sparticuz/chromium-min");
 const puppeteer = require('puppeteer-core');
 
 exports.handler = async (event, context) => {
@@ -10,13 +10,16 @@ exports.handler = async (event, context) => {
 
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
-  const path = await chromium.executablePath(process.env.CHROME_DIR);
+  const path = await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar");
   console.log("get browser");
   console.log(path);
+
+  chromium.setGraphicsMode = false;
+
   const browser = await puppeteer.launch({
     executablePath: process.env.CHROME_EXECUTABLE_PATH || path,
-    headless: chromium.true,
-    args: ['--no-sandbox'],
+    headless: chromium.headless,
+    args: [...chromium.args,'--no-sandbox'],
   });
   console.log("get new page");
   var page = await browser.newPage();
