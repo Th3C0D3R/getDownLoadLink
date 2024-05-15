@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
   if (url === undefined) 
   {
     return {
-      statusCode: 200,
+      statusCode: 501,
       body: JSON.stringify({ error: "ERROR - No URL provided!", time: (Date.now() - start) / 1000 })
     }
   }
@@ -47,7 +47,7 @@ exports.handler = async (event, context) => {
   } catch (error) {
     browser.close();
     return {
-      statusCode: 200,
+      statusCode: 501,
       body: JSON.stringify({ error: "ERROR - Page not loaded correctly!", time: (Date.now() - start) / 1000 })
     }
   }
@@ -88,7 +88,7 @@ exports.handler = async (event, context) => {
   browser.close();
 
   return {
-    statusCode: 200,
+    statusCode: 501,
     body: JSON.stringify({ error: "FAILED", time: (Date.now() - start) / 1000 })
   }
 }
