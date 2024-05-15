@@ -1,6 +1,12 @@
 const chromium = require("@sparticuz/chromium-min");
 const puppeteer = require('puppeteer-core');
 
+function log(s){
+  if(process.env["DO_LOG"] === "1"){
+    console.log(s);
+  }
+}
+
 exports.handler = async (event, context) => {
 
   var start = Date.now();
@@ -27,22 +33,22 @@ exports.handler = async (event, context) => {
     args: [...chromium.args, '--no-sandbox'],
   });
 
-  console.log("get new page");
+  log("get new page");
   var page = await browser.newPage();
 
-  console.log("got to page");
+  log("got to page");
   await page.goto(`${urlBase}`);
 
-  console.log("type url");
+  log("type url");
   await page.focus("#ytUrl");
   await page.keyboard.type(url);
 
-  console.log("wait for idle");
+  log("wait for idle");
   await page.waitForSelector("#convertForm > button");
   await page.click("#convertForm > button");
 
   try {
-    console.log("wait for selector");
+    log("wait for selector");
     await page.waitForSelector("#dtable tbody tr td a[href*=\"sdownload\"]");
   } catch (error) {
     browser.close();
@@ -52,7 +58,7 @@ exports.handler = async (event, context) => {
     }
   }
 
-  console.log("eval code to get hrefs");
+  log("eval code to get hrefs");
   let list = await page.evaluate((sel) => {
     let elements = Array.from(document.querySelectorAll(sel));
     let links = elements.map(element => {
@@ -61,28 +67,29 @@ exports.handler = async (event, context) => {
     return links;
   }, '#dtable tbody tr td a[href*=\"sdownload\"]');
 
-  console.log("check list length");
+  log("check list length");
   if (list.length > 0) {
-    console.log("go to last page");
-    console.log(list[list.length - 1]);
+    log("go to last page");
+    log(list[list.length - 1]);
     var content = await page.goto(list[list.length - 1]);
-    console.log("get page text");
+    log("get page text");
     var text = await content.text();
-    console.log("check regex");
+    log("check regex");
     const regS = [...text.match(new RegExp(/<script>[\n](.+)<\/script>/, "g"))];
-    console.log(regS);
+    log(regS);
     var script = regS[0][1];
 
     var indexofEnd = script.indexOf("function mJHlA()");
     var rest = script.substring(0, indexofEnd);
 
-    console.log("eval code rest");
+    log("eval code rest");
     var dlUrl = eval(rest);
+    log(dlUrl);
     browser.close();
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ url: dlUrl, time: (Date.now() - start) / 1000 })
+      body: JSON.stringify({ link: dlUrl, time: (Date.now() - start) / 1000 })
     }
   }
   browser.close();
