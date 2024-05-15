@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
   const browser = await puppeteer.launch({
     executablePath: path,
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    args: ['--no-sandbox'],
   });
   console.log("get new page");
   var page = await browser.newPage();
