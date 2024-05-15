@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
 
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
-  const path = await chromium.executablePath;
+  const path = await chromium.executablePath();
   console.log("get browser");
   console.log(path);
   const browser = await puppeteer.launch({
