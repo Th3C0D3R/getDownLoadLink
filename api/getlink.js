@@ -10,8 +10,10 @@ exports.handler = async (event, context) => {
 
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
-  const path = process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar");
+  const path = process.env.CHROME_EXECUTABLE_PATH || process.env.CHROME_PATH;
   chromium.setGraphicsMode = false;
+  console.log("path");
+  console.log(path);
 
   const browser = await puppeteer.launch({
     executablePath: path,
@@ -60,7 +62,7 @@ exports.handler = async (event, context) => {
     console.log("get page text");
     var text = await content.text();
     console.log("check regex");
-    const regS = [...text.matchAll(new RegExp(/<script>[\n](.+)<\/script>/, "g"))];
+    const regS = [...text.match(new RegExp(/<script>[\n](.+)<\/script>/, "g"))];
     console.log(regS);
     var script = regS[0][1];
 
