@@ -10,14 +10,11 @@ exports.handler = async (event, context) => {
 
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
-  const path = await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar");
-  console.log("get browser");
-  console.log(path);
-
+  const path = process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar");
   chromium.setGraphicsMode = false;
 
   const browser = await puppeteer.launch({
-    executablePath: process.env.CHROME_EXECUTABLE_PATH || path,
+    executablePath: path,
     headless: chromium.headless,
     args: [...chromium.args,'--no-sandbox'],
   });
@@ -32,7 +29,7 @@ exports.handler = async (event, context) => {
   await page.keyboard.type(url);
 
   console.log("wait for idle");
-  await page.waitForNetworkIdle();
+  await page.waitForSelector("#convertForm > button");
   await page.click("#convertForm > button");
 
   try {
