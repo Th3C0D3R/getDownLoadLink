@@ -10,13 +10,16 @@ exports.handler = async (event, context) => {
 
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
+  console.log(process.env.CHROME_PATH);
+
   const path = process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar");
   chromium.setGraphicsMode = false;
+  console.log(path);
 
   const browser = await puppeteer.launch({
     executablePath: path,
     headless: chromium.headless,
-    args: [...chromium.args,'--no-sandbox'],
+    args: [...chromium.args, '--no-sandbox'],
   });
   console.log("get new page");
   var page = await browser.newPage();
@@ -39,7 +42,7 @@ exports.handler = async (event, context) => {
     browser.close();
     return {
       statusCode: 200,
-      body: JSON.stringify({error:"ERROR - Page not loaded correctly!", time:(Date.now() - start)/1000})
+      body: JSON.stringify({ error: "ERROR - Page not loaded correctly!", time: (Date.now() - start) / 1000 })
     }
   }
 
@@ -73,13 +76,13 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({url:dlUrl, time:(Date.now() - start)/1000})
+      body: JSON.stringify({ url: dlUrl, time: (Date.now() - start) / 1000 })
     }
   }
   browser.close();
 
   return {
     statusCode: 200,
-    body: JSON.stringify({error:"FAILED", time:(Date.now() - start)/1000})
+    body: JSON.stringify({ error: "FAILED", time: (Date.now() - start) / 1000 })
   }
 }
