@@ -5,13 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": ""
+    "build": "node prebuild.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@sparticuz/chromium-min": "^123.0.1",
-    "discord-interactions": "^3.4.0",
     "puppeteer-core": "^22.6.4"
   }
 }

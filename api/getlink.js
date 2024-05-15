@@ -1,5 +1,6 @@
 const chromium = require("@sparticuz/chromium-min");
 const puppeteer = require('puppeteer-core');
+const fs = require('fs');
 
 exports.handler = async (event, context) => {
 
@@ -10,8 +11,14 @@ exports.handler = async (event, context) => {
 
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
+  console.log(fs.existsSync("/tmp/chromium"));
+  fs.readdirSync(testFolder).forEach(file => {
+    console.log(file);
+  });
+
   const path = process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar");
   chromium.setGraphicsMode = false;
+  //console.log(path);
 
   const browser = await puppeteer.launch({
     executablePath: path,
@@ -70,16 +77,6 @@ exports.handler = async (event, context) => {
     console.log("eval code rest");
     var dlUrl = eval(rest);
     browser.close();
-
-    const request = new XMLHttpRequest();
-    request.open("POST", process.env.WEBHOOK_DISCORD);
-    request.setRequestHeader('Content-type', 'application/json');
-    const params = {
-      username: "LinkConverter",
-      avatar_url: "",
-      content: `You video was successful converted!\n\nTime to convert: ${(Date.now() - start) / 1000}\n\nLink:\n${dlUrl}`
-    }
-    request.send(JSON.stringify(params));
 
     return {
       statusCode: 200,
