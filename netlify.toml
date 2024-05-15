@@ -6,4 +6,4 @@
   functions = "api"
 [functions]
   node_bundler = "esbuild"
-  external_node_modules = ["@sparticuz/chromium"] 
+  external_node_modules = ["@sparticuz/chromium"]
