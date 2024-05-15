@@ -10,11 +10,15 @@ exports.handler = async (event, context) => {
 
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
+  const path = await chromium.executablePath();
+  console.log("get browser");
+  console.log(path);
   const browser = await puppeteer.launch({
-    executablePath: await chromium.executablePath(),
-    headless: 'shell',
+    executablePath: path,
+    headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
+  console.log("get new page");
   var page = await browser.newPage();
 
   console.log("got to page");
