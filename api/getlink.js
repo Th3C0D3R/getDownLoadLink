@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const chromium = require("@sparticuz/chromium");
 
 exports.handler = async (event, context) => {
 
@@ -9,7 +10,10 @@ exports.handler = async (event, context) => {
 
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    executablePath: await chromium.executablePath(),
+    headless: 'shell'
+  });
   var page = await browser.newPage();
 
   await page.goto(`${urlBase}`);
