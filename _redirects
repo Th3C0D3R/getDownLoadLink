@@ -1,3 +1,1 @@
-/api/getlink-background /.netlify/functions/getlink-background 200!
-/api/interactions /.netlify/functions/interactions 200!
-/api/setupCommands /.netlify/functions/setupCommands 200!
+/api/getlink /.netlify/functions/getlink 200!
