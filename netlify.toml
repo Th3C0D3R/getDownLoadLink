@@ -1,10 +1,10 @@
 # example netlify.toml
 [build]
   command = "npm install . && npm run build"
-  # prebuild = "npx @puppeteer/browsers install chromium@123 --path /tmp/chromium"
+  prebuild = "npx @puppeteer/browsers install chromium@123 --path /tmp/chromium"
   publish = ""
 [dev]
   functions = "api"
 [functions]
   node_bundler = "esbuild"
-  # external_node_modules = ["@sparticuz/chromium"] 
+  external_node_modules = ["@sparticuz/chromium"] 
