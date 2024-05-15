@@ -8,6 +8,14 @@ exports.handler = async (event, context) => {
   var url = event.queryStringParameters["url"] || undefined;
   var isP = event.queryStringParameters["p"] !== undefined;
 
+  if (url === undefined) 
+  {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ error: "ERROR - No URL provided!", time: (Date.now() - start) / 1000 })
+    }
+  }
+
   const urlBase = isP ? "https://yesdownloader.com/" : "https://www.downloader.wiki/";
 
   const path = process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar");
