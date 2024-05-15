@@ -75,12 +75,13 @@ exports.handler = async (event, context) => {
     log("get page text");
     var text = await content.text();
     log("check regex");
-    const regS = [...text.match(new RegExp(/<script>[\n](.+)<\/script>/, "g"))];
-    log(regS);
+    const regS = [...text.matchAll(new RegExp(/<script>[\n](.+)<\/script>/, "g"))];
+
     var script = regS[0][1];
 
     var indexofEnd = script.indexOf("function mJHlA()");
     var rest = script.substring(0, indexofEnd);
+    log(rest);
 
     log("eval code rest");
     var dlUrl = eval(rest);
